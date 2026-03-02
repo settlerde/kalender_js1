@@ -1,0 +1,63 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: azure;
+    width: 100%;
+    max-width: 50rem;
+}
+
+.header {
+    font-size: large;
+    text-align: center;
+    padding: 1rem;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+button {
+    margin: 1rem;
+    border-radius: 0.5rem;
+    background-color: lightblue;
+    cursor: pointer;
+}
+button:hover {
+    background-color: aquamarine;
+}
+
+#calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: bold;
+    gap: 0.25rem;
+    padding: 1rem;
+}
+
+.weekend-header {
+    color: red;
+}
+
+.date {
+    background-color: lightblue;
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+.date:hover {
+    background-color: aquamarine;
+}
+
+.emptyCells {
+    background: transparent;
+}
