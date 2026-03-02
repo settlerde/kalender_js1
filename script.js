@@ -1,40 +1,35 @@
 // global variable
-let currentDisplayDate = new Date(); 
-// months array
+let currentDisplayDate = new Date();
+const month = currentDisplayDate.getMonth();
+const year = currentDisplayDate.getFullYear();
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+console.log(daysInMonth);
+
+// months and week days arrays
 const monthNamesDe = [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
     "Juli", "August", "September", "Oktober", "November", "Dezember"
 ];
-// main calendar function
-function renderCalendar() {
+const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+
+function calenderHeader() {
+    let monatJahr = `${monthNamesDe[month]} ${year}`;
+    document.getElementById('aktuel-monat').innerHTML = monatJahr;
+}
+calenderHeader();
+
+function calendar() {
+    for (i = 1; i <= daysInMonth; i++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.classList.add('calendar-days')
+        dayDiv.appendChild()
+    }
+}
+calendar();
+
+/*function renderCalendar() {
     const grid = document.getElementById('calendarGrid');
     const monthHeader = document.getElementById('aktuel-monat');
-
-    // Берем данные из нашей переменной
-    const year = currentDisplayDate.getFullYear();
-    const month = currentDisplayDate.getMonth();
-
-    // Обновляем текст заголовка
-    monthHeader.innerText = `${monthNamesDe[month]} ${year}`;
-
-    // ПОЛНАЯ ОЧИСТКА СЕТКИ
-    grid.innerHTML = '';
-
-    // ШАГ А: Рисуем заголовки дней недели заново
-    const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
-    weekDays.forEach(day => {
-        const dayDiv = document.createElement('div');
-        // Если это Сб или Вс - даем твой красный класс из CSS
-        if (day === "Sa" || day === "So") {
-            dayDiv.classList.add('weekend-header');
-        } else {
-            // Для остальных можно создать класс .weekday-header или оставить пустым
-            dayDiv.classList.add('weekday-header'); 
-        }
-        dayDiv.innerText = day;
-        grid.appendChild(dayDiv);
-        }
-    )
 
     // ШАГ Б: Логика отступа (Offset)
     const firstDayIndex = new Date(year, month, 1).getDay();
@@ -47,12 +42,14 @@ function renderCalendar() {
     }
 
     // ШАГ В: Рисуем числа
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
     for (let d = 1; d <= daysInMonth; d++) {
         const dateDiv = document.createElement('div');
         dateDiv.classList.add('date'); // Твой голубой квадрат из CSS
         dateDiv.innerText = d;
         grid.appendChild(dateDiv);
+    }
+    if (d === currentDisplayDate.getDay()) {
+        dayDiv.classList.add('current-day');
     }
 }
 
@@ -80,3 +77,4 @@ nextBtn.addEventListener('click', () => {
     renderCalendar();
     }
 )
+*/

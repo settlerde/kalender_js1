@@ -61,3 +61,13 @@ button:hover {
 .emptyCells {
     background: transparent;
 }
+
+.todayBirthday {
+    font-style: italic;
+    padding: 1rem;
+    color: red;
+}
+
+.current-day {
+    color: blueviolet;
+}
