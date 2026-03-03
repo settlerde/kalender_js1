@@ -29,6 +29,13 @@ function calendar() {
         dayNameCells.appendChild(dayNames);
     }
 
+    for (e = 6; e > dayNummber; e--) {
+        const emptyCells = document.getElementById('calendarGrid');
+        const dayOffset = document.createElement('div');
+        dayOffset.classList.add('dayCells');
+        emptyCells.appendChild(dayOffset);
+    }
+
     for (i = 1; i <= daysInMonth; i++) {
         const calendarGrid = document.getElementById('calendarGrid');
         const dayDiv = document.createElement('div');
@@ -38,14 +45,3 @@ function calendar() {
     }
 }
 calendar()
-
-function dayShift() {
-    for (d = 6; d > dayNummber; d--) {
-        const emptyCells = document.getElementById('calendarGrid');
-        const dayOffset = document.createElement('div');
-        dayOffset.classList.add('emptyCells');
-        dayOffset.innerText = d;
-        emptyCells.appendChild(dayOffset);
-    }
-}
-dayShift()

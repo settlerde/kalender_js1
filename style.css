@@ -61,10 +61,6 @@ button:hover {
     background: transparent;
     margin: 0.5rem;
 }
-.emptyCells {
-    background: burlywood;
-    margin: 0.5rem;
-}
 
 .todayBirthday {
     font-style: italic;
