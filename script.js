@@ -2,12 +2,14 @@
 let currentDisplayDate = new Date();
 const year = currentDisplayDate.getFullYear();
 const month = currentDisplayDate.getMonth();
+const dayToday = currentDisplayDate.getDate();
 
 // days in current month
 const daysInMonth = new Date(year, month + 1, 0).getDate();
 
 // set first weekday (0 - So, 1 - Mo, ..., 6 - Sa)
 let firstDayIndex = new Date(year, month, 1).getDay();
+console.log()
 let dayOffsetCount = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
 
 const monthNamesDe = [
@@ -50,7 +52,12 @@ function calendar() {
         dayDiv.classList.add('dayCells');
         dayDiv.innerText = i;
         calendarGrid.appendChild(dayDiv);
+                if (i == dayToday) {
+            dayDiv.classList.add('current-day')
+        }
+
     }
+
 }
 
 // start functions
