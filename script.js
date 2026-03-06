@@ -1,47 +1,58 @@
-// global variable
+// current date
 let currentDisplayDate = new Date();
 const year = currentDisplayDate.getFullYear();
 const month = currentDisplayDate.getMonth();
-const daysInMonth = new Date(year, month + 1, 0).getDate();
-const dayNummber = new Date(year, month, 1).getDay()
-console.log(dayNummber)
-console.log(daysInMonth)
 
-// months and week days arrays
+// days in current month
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+// set first weekday (0 - So, 1 - Mo, ..., 6 - Sa)
+let firstDayIndex = new Date(year, month, 1).getDay();
+let dayOffsetCount = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
+
 const monthNamesDe = [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
     "Juli", "August", "September", "Oktober", "November", "Dezember"
-]
-const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
+];
+const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
+// calendar header
 function calenderHeader() {
-    let monatJahr = `${monthNamesDe[month]} ${year}`;
-    document.getElementById('aktuel-monat').innerHTML = monatJahr;
+    const headerElement = document.getElementById('aktuel-monat');
+    if (headerElement) {
+        headerElement.innerHTML = `${monthNamesDe[month]} ${year}`;
+    }
 }
-calenderHeader()
 
+// render function
 function calendar() {
+    const calendarGrid = document.getElementById('calendarGrid');
+    if (!calendarGrid) return; // proof of code
+
+    // render weekdays
     for (let d of weekDays) {
-        const dayNameCells = document.getElementById('calendarGrid');
-        const dayNames = document.createElement('div');
-        dayNames.classList.add('dayCells')
-        dayNames.innerText = d;
-        dayNameCells.appendChild(dayNames);
+        const dayNameCell = document.createElement('div');
+        dayNameCell.classList.add('dayCells', 'font-weight-bold'); // Можно добавить стиль для шапки
+        dayNameCell.innerText = d;
+        calendarGrid.appendChild(dayNameCell);
     }
 
-    for (e = 6; e > dayNummber; e--) {
-        const emptyCells = document.getElementById('calendarGrid');
-        const dayOffset = document.createElement('div');
-        dayOffset.classList.add('dayCells');
-        emptyCells.appendChild(dayOffset);
+    // render offset - shift
+    for (let e = 0; e < dayOffsetCount; e++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('dayCells', 'empty');
+        calendarGrid.appendChild(emptyCell);
     }
 
-    for (i = 1; i <= daysInMonth; i++) {
-        const calendarGrid = document.getElementById('calendarGrid');
+    // render of calendar days
+    for (let i = 1; i <= daysInMonth; i++) {
         const dayDiv = document.createElement('div');
-        dayDiv.classList.add('dayCells')
+        dayDiv.classList.add('dayCells');
         dayDiv.innerText = i;
         calendarGrid.appendChild(dayDiv);
     }
 }
-calendar()
+
+// start functions
+calenderHeader();
+calendar();
