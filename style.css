@@ -4,6 +4,7 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    font-weight: bold;
     background-color: azure;
     width: 100%;
     max-width: 50rem;
@@ -15,59 +16,29 @@ body {
     padding: 1rem;
 }
 
-.calendar {
-    display: flex;
-    flex-direction: column;
-}
-
-.calendar-header {
+.calendar-navigation {
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-button {
-    margin: 1rem;
-    border-radius: 0.5rem;
-    background-color: lightblue;
-    cursor: pointer;
-}
-button:hover {
-    background-color: aquamarine;
-}
-
-#calendarGrid {
+.calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    font-weight: bold;
-    gap: 0.5rem;
-}
-
-.weekend-header {
-    color: red;
-}
-
-.date {
-    background-color: lightblue;
-    padding: 1rem;
-    cursor: pointer;
-    border-radius: 0.5rem;
-}
-.date:hover {
-    background-color: aquamarine;
+    gap: 0.25rem;
 }
 
 .dayCells {
-    background: transparent;
-    margin: 0.5rem;
+    padding: 1rem;
+    text-align: center;
 }
 
-.todayBirthday {
-    font-style: italic;
-    padding: 1rem;
-    color: red;
+.header {
+    font-weight: bold;
 }
 
 .current-day {
     background-color: aquamarine;
+    border-radius: 0.5rem;
 }

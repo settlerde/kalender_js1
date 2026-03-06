@@ -6,18 +6,19 @@
     <link rel="stylesheet" href="style.css">
     <title>Kalender JS</title>
 </head>
-<body>=
+<body>
     <div class="header">
         <h1 class="header-name">Kalender JS</h1>
         <p class="text">Dynamischer Kalender mit JS</p>
     </div>
-    <div class="calendar">
-        <div class="calendar-header">
-            <button id="rückwerts-btn">&ltcc;</button>
-                <h2 id="aktuel-monat">Monat Jahr</h2>
-            <button id="vorwärts-btn">&gtcc;</button>
-        </div>
-        <div class="calendar-days" id="calendarGrid"></div>
+<div class="calendar-container">
+    <div class="calendar-navigation">
+        <button id="prevMonth">←</button>
+        <h2 id="aktuel-monat"></h2>
+        <button id="nextMonth">→</button>
+    </div>
+    <div id="calendarGrid" class="calendar-grid"></div>
+</div>
     </div>
     <p class="todayBirthday">Geburtstag von <span class="nameBirthday">...</span> </P>
 
