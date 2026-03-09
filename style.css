@@ -7,15 +7,22 @@ body {
     font-weight: bold;
     background-color: azure;
     width: 100%;
-    max-width: 50rem;
+    max-width: 40rem;
 }
 
 .header {
-    font-size: large;
     text-align: center;
     padding: 1rem;
-    background-color: lightskyblue;
-    border-radius: 0.5rem;
+}
+
+.calendar-container {
+    border-style: groove;
+    border-color: limegreen;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: large;
+    border-width: 0.5rem;
 }
 
 .calendar-navigation {
@@ -34,28 +41,31 @@ body {
 .dayCells {
     padding: 1rem;
     text-align: center;
+    background-color: aquamarine;
+    border-radius: 50%;
 }
 
-.dayCells:nth-child(7n), .dayCells:nth-child(7n + 6), #tagDesJahres {
+.dayCells:nth-child(7n), .dayCells:nth-child(7n + 6) {
     color: red;
 }
 
-.current-day {
-    background-color: lightskyblue;
-    border-radius: 0.5rem;
+.current-day, .header-name, #tagDesJahres {
+    background-color: limegreen;
+    border-radius: 50%;
 }
 
 button {
     background-color: aquamarine;
-    border-radius: 0.5rem;
+    border-radius: 50%;
     cursor: pointer;
     padding: 1rem;
+    border-width: 0.2rem;
+    border-color: limegreen;
+}
+button:hover {
+    background-color: limegreen;
 }
 
-p {
-    padding: 1rem;
-}
-
-.header-name {
-    color: green;
+.dayCells.empty, .dayCells.header {
+    background-color: transparent;
 }
