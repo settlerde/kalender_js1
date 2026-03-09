@@ -14,13 +14,15 @@ body {
     font-size: large;
     text-align: center;
     padding: 1rem;
+    background-color: lightskyblue;
+    border-radius: 0.5rem;
 }
 
 .calendar-navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin: 1rem;
 }
 
 .calendar-grid {
@@ -34,11 +36,26 @@ body {
     text-align: center;
 }
 
-.header {
-    font-weight: bold;
+.dayCells:nth-child(7n), .dayCells:nth-child(7n + 6), #tagDesJahres {
+    color: red;
 }
 
 .current-day {
+    background-color: lightskyblue;
+    border-radius: 0.5rem;
+}
+
+button {
     background-color: aquamarine;
     border-radius: 0.5rem;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+p {
+    padding: 1rem;
+}
+
+.header-name {
+    color: green;
 }

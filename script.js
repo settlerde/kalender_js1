@@ -7,6 +7,16 @@ const monthNamesDe = [
 ];
 const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
+//dies wird tage berechnen seit jahresbeginn
+function daysCount() {
+    const startYear = new Date(currentDisplayDate.getFullYear(), 1, 6);
+    const diffMs = currentDisplayDate - startYear;
+    const oneDayMs = 1000 * 60 * 60 * 24;
+    const dayNumber = Math.floor(diffMs / oneDayMs) + 1;
+    return dayNumber;
+}
+document.getElementById('tagDesJahres').innerHTML = daysCount();
+
 function render() {
     const year = currentDisplayDate.getFullYear();
     const month = currentDisplayDate.getMonth();
@@ -68,3 +78,4 @@ document.getElementById('nextMonth').onclick = () => {
 
 // start function
 render();
+
