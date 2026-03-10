@@ -76,6 +76,34 @@ document.getElementById('nextMonth').onclick = () => {
     render();
 };
 
+async function getHistorischeEreignisse() {
+    let result; 
+    try {
+        const response = await fetch("https://history.muffinlabs.com/date/2/14");
+        const data = await response.json();
+        result = data.data.Events;
+        console.log(result);
+        return result;
+    } catch (error) { 
+        console.error(error);
+    }
+}
+
+async function renderHistorischeErignisse() {
+    let historischeErignisse = document.getElementById("ereignisse");
+    console.log(historischeErignisse);
+    let events = await getHistorischeEreignisse();
+        for (let i = 0; i < events.length; i++){
+            const eventDiv = document.createElement('div');
+            eventDiv.classList.add('eventDiv');
+            eventDiv.innerText = events[i].year + ": " + events[i].text;
+            historischeErignisse.appendChild(eventDiv);
+            if (i==10){
+                break;
+            }
+        }
+}
+
 // start function
 render();
-
+renderHistorischeErignisse();
