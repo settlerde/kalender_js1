@@ -20,7 +20,7 @@ body {
     margin: 1rem;
     padding: 1rem;
     border-radius: 1rem;
-    font-size: large;
+    font-size: larger;
     border-width: 0.5rem;
     height: 31rem;
 }
@@ -68,3 +68,19 @@ button:hover {
 .dayCells.empty, .dayCells.header {
     background-color: transparent;
 }
+
+h2 {
+    color: limegreen;
+}
+#ereignisse {
+    text-align: start;
+    color: black;
+    max-width: 40rem;
+}
+
+/*.eventDiv {
+    padding: 0.5rem 0;
+    text-align:start;
+    font-size: medium;
+    color: black;
+}*/

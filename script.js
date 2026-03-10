@@ -63,6 +63,35 @@ function render() {
 
         calendarGrid.appendChild(dayDiv); // storing all this staff in its plays in grid
     }
+
+async function showDayEvent() {
+    const today = new Date();
+    const url = `https://de.wikipedia.org/api/rest_v1/feed/onthisday/events/${today.getMonth() + 1}/${today.getDate()}`;
+    
+    // fionde Element zum Aufzeichen
+    const el = document.getElementById('ereignisse'); 
+    
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // nehme 3 Ereignisse
+        const topEvents = data.events.slice(0, 5);
+        
+        // Ergebnis schreiben in innerHTML (damit tags html functionieren <br>)
+        el.innerHTML = topEvents
+            .map(ev => `${ev.year}: ${ev.text}`)
+            .join('<br><br>');
+            
+    } 
+    catch (err) {
+        // wenn nicht geladen wird
+        if (el) el.innerText = "Ladefehler";
+    }
+}
+
+// Запуск
+showDayEvent();
 }
 
 // button listeners
@@ -76,7 +105,7 @@ document.getElementById('nextMonth').onclick = () => {
     render();
 };
 
-async function getHistorischeEreignisse() {
+/*async function getHistorischeEreignisse() {
     let result; 
     try {
         const response = await fetch("https://history.muffinlabs.com/date/2/14");
@@ -98,12 +127,12 @@ async function renderHistorischeErignisse() {
             eventDiv.classList.add('eventDiv');
             eventDiv.innerText = events[i].year + ": " + events[i].text;
             historischeErignisse.appendChild(eventDiv);
-            if (i==10){
+            if (i==5){
                 break;
             }
         }
-}
+}*/
 
 // start function
 render();
-renderHistorischeErignisse();
+//renderHistorischeErignisse();
