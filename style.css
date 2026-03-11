@@ -7,10 +7,8 @@ body {
     font-weight: bold;
     width: 100%;
     background-image: url('https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=2000');
-    background-size: cover;         /* Растянуть на весь экран */
-    background-position: center;    /* Центрировать */
-    background-attachment: fixed;   /* Зафиксировать (эффект параллакса) */
     min-height: 100vh;
+    margin: 0;
 }
 
 .header {
@@ -26,7 +24,7 @@ body {
     border-radius: 1rem;
     font-size: larger;
     border-width: 0.5rem;
-    height: 31rem;
+    min-height: 31rem; 
     color: antiquewhite;
 }
 
@@ -47,15 +45,23 @@ body {
     padding: 1rem;
     text-align: center;
     border-radius: 50%;
+    transition: 0.3s;
 }
 
 .dayCells:nth-child(7n), .dayCells:nth-child(7n + 6) {
-    color: red;
+    color: red; 
 }
 
-.current-day, .header-name, #tagDesJahres {
-    background-color: limegreen;
-    border-radius: 50%;
+.dayCells.holiday {
+    color: limegreen !important; 
+    text-shadow: 0 0 8px limegreen;
+    cursor: help;
+}
+
+.current-day {
+    background-color: limegreen !important;
+    color: black !important;
+    box-shadow: 0 0 15px limegreen;
 }
 
 button {
@@ -65,38 +71,76 @@ button {
     padding: 1rem;
     border-width: 0.2rem;
     border-color: limegreen;
+    font-weight: bold;
+    transition: 0.3s;
 }
+
 button:hover {
     background-color: limegreen;
+    box-shadow: 0 0 10px limegreen;
 }
 
 .dayCells.empty, .dayCells.header {
     background-color: transparent;
 }
 
-h2 {
-    color: limegreen;
+.dayCells.header {
+    color: aquamarine;
 }
-#ereignisse {
+
+h2, h1 {
+    color: limegreen;
+    text-shadow: 0 0 5px limegreen;
+}
+
+#ereignisse, p {
     text-align: start;
     color: antiquewhite;
     max-width: 40rem;
     padding: 1rem;
-}
-
-.text {
-    color: antiquewhite;
+    margin-top: 1rem;
 }
 
 #tagDesJahres {
     background-color: aquamarine;
     color: black;
-    padding: 2px;
+    padding: 0.2rem;
+    border-radius: 50%;
+    display: inline-block;
 }
 
-/*.eventDiv {
-    padding: 0.5rem 0;
-    text-align:start;
-    font-size: medium;
-    color: black;
-}*/
+.event-item {
+    margin-bottom: 1rem;
+    border-left: 0.1rem solid aquamarine;
+    padding-left: 1rem;
+}
+
+#holiday-banner {
+    margin: 10px 0;
+    overflow: hidden;
+    transition: opacity 1s ease;
+    font-size: 1.1rem;
+}
+
+/* Эффект бегущей строки */
+.marquee {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%; 
+    animation: marquee 12s linear infinite;
+}
+
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+.no-holiday {
+    color: limegreen;
+    text-shadow: 0 0 5px rgba(50, 205, 50, 0.5);
+}
+
+.active-holiday {
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+}
