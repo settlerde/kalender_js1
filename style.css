@@ -48,8 +48,9 @@ body {
     transition: 0.3s;
 }
 
-.dayCells:nth-child(7n), .dayCells:nth-child(7n + 6) {
-    color: red; 
+.dayCells:nth-child(7n), .dayCells:nth-child(7n + 6)
+, .dayCells.header.dayCells:nth-child(7n + 6), .dayCells.header.dayCells:nth-child(7n) {
+    color: #f00797; 
 }
 
 .dayCells.holiday {
@@ -59,8 +60,8 @@ body {
 }
 
 .current-day {
-    background-color: limegreen !important;
-    color: black !important;
+    background-color: limegreen;
+    color: black;
     box-shadow: 0 0 15px limegreen;
 }
 
@@ -78,10 +79,6 @@ button {
 button:hover {
     background-color: limegreen;
     box-shadow: 0 0 10px limegreen;
-}
-
-.dayCells.empty, .dayCells.header {
-    background-color: transparent;
 }
 
 .dayCells.header {
@@ -143,4 +140,16 @@ h2, h1 {
 .active-holiday {
     color: #ff00ff;
     text-shadow: 0 0 10px #ff00ff;
+}
+
+footer {
+    margin: 1 rem;
+    text-align: center;
+    align-items: center;
+}
+
+.logo {
+    max-width: 10rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem limegreen;
 }

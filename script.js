@@ -1,5 +1,6 @@
-// global let variable and arrays
+// global var
 let currentDisplayDate = new Date();
+let holidays = []; // all holidays are hier
 
 const monthNamesDe = [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -7,92 +8,163 @@ const monthNamesDe = [
 ];
 const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
-//das wird tage berechnen seit jahresbeginn
+// year count
 function daysCount() {
-    const startYear = new Date(currentDisplayDate.getFullYear(), 1, 6);
-    const diffMs = currentDisplayDate - startYear;
+    const today = new Date();
+    const startYear = new Date(today.getFullYear(), 1, 6); // beginn seit 02.06.2026
+    const diffMs = today - startYear;
     const oneDayMs = 1000 * 60 * 60 * 24;
-    const dayNumber = Math.floor(diffMs / oneDayMs) + 1;
-    return dayNumber;
+    return Math.floor(diffMs / oneDayMs) + 1;
 }
 document.getElementById('tagDesJahres').innerHTML = daysCount();
 
-// button listeners
-document.getElementById('prevMonth').onclick = () => {
-    currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
-    render();
-};
+async function loadHolidays(year) {
+    try {
+        const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/DE`);
+        const allGermanHolidays = await res.json();
+        
+        holidays = allGermanHolidays.filter(h => 
+            h.counties === null || h.counties.includes('DE-HE')
+        );
 
-document.getElementById('nextMonth').onclick = () => {
-    currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
-    render();
-};
-// render function
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        
+        const currentHoliday = holidays.find(h => h.date === todayStr);
+        const banner = document.getElementById('holiday-banner');
+
+        if (currentHoliday) {
+            banner.innerHTML = `<div class="marquee">🎉 HEUTE: ${currentHoliday.localName}</div>`;
+            banner.className = 'active-holiday';
+        } else {
+            banner.innerHTML = `<div class="marquee">📡 STATUS: Heute gibt es keine Feiertage.</div>`;
+            banner.className = 'no-holiday';
+        }
+        banner.style.display = 'block';
+        // disapier in 10 sec
+        setTimeout(() => {
+            banner.style.opacity = '0';
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 3000); // wait for end
+        }, 10000); // 10000 ms = 10 sec
+        render(); 
+    } catch (err) {
+        console.error("Ошибка API", err);
+        render();
+    }
+}
+// rendering main function
 function render() {
     const year = currentDisplayDate.getFullYear();
     const month = currentDisplayDate.getMonth();
     const calendarGrid = document.getElementById('calendarGrid');
-    // clear calendar html while clicking prev/next btn
+    
     calendarGrid.innerHTML = '';
     document.getElementById('aktuel-monat').innerText = `${monthNamesDe[month]} ${year}`;
-    // set propper month insteed index
+
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     let firstDayIndex = new Date(year, month, 1).getDay();
-    // setting offset
     let dayOffsetCount = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
-    // rendering weekdays
+    // week days
     for (let d of weekDays) {
         const dayName = document.createElement('div');
         dayName.classList.add('dayCells', 'header');
         dayName.innerText = d;
         calendarGrid.appendChild(dayName);
     }
-    // rendering empty cells for offset
+    // empty cells (Offset)
     for (let e = 0; e < dayOffsetCount; e++) {
         const emptyCell = document.createElement('div');
         emptyCell.classList.add('dayCells', 'empty');
         calendarGrid.appendChild(emptyCell);
     }
-    // rendering number of days in current month
+    // days rendering
     const today = new Date();
     for (let i = 1; i <= daysInMonth; i++) {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('dayCells');
         dayDiv.innerText = i;
-        // geting current day to highlight it
-        if (i === today.getDate() && 
-            month === today.getMonth() && 
-            year === today.getFullYear()) {
+        // check date for holidays
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+        const holiday = holidays.find(h => h.date === dateStr);
+        // marking today
+        if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
             dayDiv.classList.add('current-day');
         }
-        calendarGrid.appendChild(dayDiv); // storing all this staff in its plays in grid
-    }
-
-    async function showDayEvent() {
-        const today = new Date();
-        const url = `https://de.wikipedia.org/api/rest_v1/feed/onthisday/events/${today.getMonth() + 1}/${today.getDate()}`;
-        
-        // finde Element zum Aufzeichen
-        const elem = document.getElementById('ereignisse'); 
-        
-        try {
-            const resp = await fetch(url); // Serveranfrage
-            const data = await resp.json();
-            const topEvents = data.events.slice(0, 5); //nehmt slice von erste 5 Events in array
-            // Ergebnis schreiben in innerHTML (damit tags html functionieren <br>)
-            elem.innerHTML = topEvents
-                .map(ev => `${ev.year}: ${ev.text}`) // ändert Aussicht der Array Elemente
-                .join('<br><br>'); // hinfügt breaks zwichen evetnt strings
-        } 
-        // wenn nicht geladen wird
-        catch (err) {
-            if (elem) elem.innerText = "Ladefehler";
+        // marking holiday
+        if (holiday) {
+            dayDiv.classList.add('holiday');
+            dayDiv.title = holiday.localName; // says what a holiday
         }
+        calendarGrid.appendChild(dayDiv);
     }
-    showDayEvent();
 }
-// start function
-render();
+// set wiki API
+async function showDayEvent() {
+    const month = currentDisplayDate.getMonth() + 1;
+    const day = (currentDisplayDate.getMonth() === new Date().getMonth()) ? new Date().getDate() : 1;
+    
+    const url = `https://de.wikipedia.org/api/rest_v1/feed/onthisday/events/${month}/${day}`;
+    const el = document.getElementById('ereignisse'); 
+    
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const topEvents = data.events.slice(0, 5);
+        
+        el.innerHTML = topEvents
+            .map(ev => `<div class="event-item"><b>${ev.year}</b>: ${ev.text}</div>`)
+            .join('<br><br>');
+    } catch (err) {
+        if (el) el.innerText = "Ladefehler";
+    }
+    async function loadHolidays(year) {
+    try {
+        const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/DE`);
+        const allGermanHolidays = await res.json();
+        
+        holidays = allGermanHolidays.filter(h => 
+            h.counties === null || h.counties.includes('DE-HE')
+        );
+
+        // check if today is holiday
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        
+        const currentHoliday = holidays.find(h => h.date === todayStr);
+        const banner = document.getElementById('holiday-banner');
+
+        if (currentHoliday) {
+            banner.innerHTML = `🎉 Heute ist Feiertag: <span>${currentHoliday.localName}</span>`;
+            banner.style.display = 'block';
+        } else {
+            banner.style.display = 'Heute ist kein Feiertag.'; // Скрываем, если праздника нет
+        }
+
+        render(); 
+    } catch (err) {
+        console.error("Fehler API", err);
+        render();
+    }
+    }
+}
+// btn listener
+document.getElementById('prevMonth').onclick = () => {
+    currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
+    // holidays of another year
+    loadHolidays(currentDisplayDate.getFullYear());
+    showDayEvent();
+};
+
+document.getElementById('nextMonth').onclick = () => {
+    currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
+    loadHolidays(currentDisplayDate.getFullYear());
+    showDayEvent();
+};
+
+loadHolidays(currentDisplayDate.getFullYear());
+showDayEvent();
 
 /*async function getHistorischeEreignisse() {
     let result; 
@@ -120,5 +192,8 @@ async function renderHistorischeErignisse() {
                 break;
             }
         }
-}
-renderHistorischeErignisse();*/
+}*/
+
+// start function
+render();
+//renderHistorischeErignisse();
