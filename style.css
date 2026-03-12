@@ -1,3 +1,4 @@
+/* Haupt-Stil für die Seite / Hauptlayout */
 body {
     font-family: 'Courier New', Courier, monospace;
     display: flex;
@@ -6,7 +7,9 @@ body {
     text-align: center;
     font-weight: bold;
     width: 100%;
-    background-image: url('https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=2000');
+    /* Hintergrundbild und Fallback-Farbe */
+    background: black url('https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=2000') no-repeat center center fixed;
+    background-size: cover;
     min-height: 100vh;
     margin: 0;
 }
@@ -16,14 +19,14 @@ body {
     padding: 1rem;
 }
 
+/* Kalender-Container mit Neon-Effekt */
 .calendar-container {
-    border-style: groove;
-    border-color: limegreen;
+    background-color: rgba(0, 0, 0, 0.7); /* Dunkler Hintergrund für bessere Lesbarkeit */
+    border: 0.5rem groove limegreen;
     margin: 1rem;
     padding: 1rem;
     border-radius: 1rem;
     font-size: larger;
-    border-width: 0.5rem;
     min-height: 31rem; 
     color: antiquewhite;
 }
@@ -41,6 +44,7 @@ body {
     gap: 0.25rem;
 }
 
+/* Zellen-Styling / Kalender-Tage */
 .dayCells {
     padding: 1rem;
     text-align: center;
@@ -48,30 +52,33 @@ body {
     transition: 0.3s;
 }
 
-.dayCells:nth-child(7n), .dayCells:nth-child(7n + 6)
-, .dayCells.header.dayCells:nth-child(7n + 6), .dayCells.header.dayCells:nth-child(7n) {
+/* Wochenende-Markierung (Samstag & Sonntag) */
+.dayCells:nth-child(7n), 
+.dayCells:nth-child(7n + 6) {
     color: #f00797; 
 }
 
+/* Feiertage in Hessen / Feiertags-Styling */
 .dayCells.holiday {
     color: limegreen !important; 
     text-shadow: 0 0 8px limegreen;
     cursor: help;
 }
 
+/* Aktueller Tag / Heute */
 .current-day {
     background-color: limegreen;
     color: black;
     box-shadow: 0 0 15px limegreen;
 }
 
+/* Buttons im Retro-Stil */
 button {
     background-color: aquamarine;
     border-radius: 50%;
     cursor: pointer;
     padding: 1rem;
-    border-width: 0.2rem;
-    border-color: limegreen;
+    border: 0.2rem solid limegreen;
     font-weight: bold;
     transition: 0.3s;
 }
@@ -85,50 +92,58 @@ button:hover {
     color: aquamarine;
 }
 
+/* Überschriften mit Glüheffekt */
 h2, h1 {
     color: limegreen;
     text-shadow: 0 0 5px limegreen;
 }
 
+/* Wikipedia-Ereignisse */
 #ereignisse, p {
     text-align: start;
     color: antiquewhite;
     max-width: 40rem;
     padding: 1rem;
     margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.5); /* Hintergrund für Text-Block */
+    border-radius: 0.5rem;
 }
 
+/* Tag des Jahres / Tageszähler */
 #tagDesJahres {
     background-color: aquamarine;
     color: black;
-    padding: 0.2rem;
-    border-radius: 50%;
+    padding: 0.2rem 0.6rem; /* Mehr Platz an den Seiten */
+    border-radius: 1rem;
     display: inline-block;
 }
 
 .event-item {
     margin-bottom: 1rem;
-    border-left: 0.1rem solid aquamarine;
+    border-left: 0.2rem solid aquamarine; /* Etwas dickerer Strich */
     padding-left: 1rem;
 }
 
+/* Laufschrift-Banner / Marquee */
 #holiday-banner {
     margin: 1rem 0;
+    width: 100%;
     overflow: hidden;
     transition: opacity 1s ease;
 }
 
-/* running line */
+/* Laufschrift-Effekt / Lauftext-Styling */
 .marquee {
-    display: inline-block;
-    white-space: nowrap;
-    padding-left: 100%; 
-    animation: marquee 15s linear infinite;
+    display: inline-block;     /* Verhält sich wie ein Block, passt sich aber dem Text an */
+    white-space: nowrap;       /* Verhindert den Zeilenumbruch, Text bleibt in einer Zeile */
+    padding-left: 100%;        /* Startet den Text außerhalb des sichtbaren Bereichs (rechts) */
+    animation: marquee 15s linear infinite; /* Animation: 15 Sek, gleichmäßig, unendlich */
 }
 
+/* Animations-Logik für die Laufschrift */
 @keyframes marquee {
-    0%   { transform: translate(0, 0); }
-    100% { transform: translate(-100%, 0); }
+    0%   { transform: translate(0, 0); }      /* Startposition: ganz rechts */
+    100% { transform: translate(-100%, 0); }  /* Endposition: komplett nach links aus dem Bild gefahren */
 }
 
 .no-holiday {
@@ -141,14 +156,19 @@ h2, h1 {
     text-shadow: 0 0 10px #ff00ff;
 }
 
+/* Footer & Logo */
 footer {
-    margin: 1 rem;
+    margin: 1rem;
     text-align: center;
-    align-items: center;
 }
 
 .logo {
     max-width: 10rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem limegreen;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.1); /* Zoom-Effekt beim Hover */
 }
