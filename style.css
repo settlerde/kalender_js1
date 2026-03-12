@@ -21,7 +21,7 @@ body {
 
 /* Kalender-Container mit Neon-Effekt */
 .calendar-container {
-    background-color: rgba(0, 0, 0, 0.7); /* Dunkler Hintergrund für bessere Lesbarkeit */
+    background-color: rgba(0, 0, 0, 0.5); /* Dunkler Hintergrund für bessere Lesbarkeit */
     border: 0.5rem groove limegreen;
     margin: 1rem;
     padding: 1rem;
@@ -54,7 +54,9 @@ body {
 
 /* Wochenende-Markierung (Samstag & Sonntag) */
 .dayCells:nth-child(7n), 
-.dayCells:nth-child(7n + 6) {
+.dayCells:nth-child(7n + 6),
+.dayCells.header:nth-child(7n), 
+.dayCells.header:nth-child(7n + 6) {
     color: #f00797; 
 }
 
@@ -114,7 +116,7 @@ h2, h1 {
     background-color: aquamarine;
     color: black;
     padding: 0.2rem 0.6rem; /* Mehr Platz an den Seiten */
-    border-radius: 1rem;
+    border-radius: 25%;
     display: inline-block;
 }
 
