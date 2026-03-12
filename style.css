@@ -113,18 +113,17 @@ h2, h1 {
 }
 
 #holiday-banner {
-    margin: 10px 0;
+    margin: 1rem 0;
     overflow: hidden;
     transition: opacity 1s ease;
-    font-size: 1.1rem;
 }
 
-/* Эффект бегущей строки */
+/* running line */
 .marquee {
     display: inline-block;
     white-space: nowrap;
     padding-left: 100%; 
-    animation: marquee 12s linear infinite;
+    animation: marquee 15s linear infinite;
 }
 
 @keyframes marquee {
