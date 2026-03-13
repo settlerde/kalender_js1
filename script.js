@@ -22,13 +22,13 @@ async function loadHolidays(year) {
     try {
         const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/DE`);
         const allGermanHolidays = await res.json();
-        
+        console.log(allGermanHolidays);
         // Filter für Hessen und Ostersonntag
-        holidays = allGermanHolidays.filter(h => 
-            h.counties === null || 
-            h.counties.includes('DE-HE') || 
-            h.name === "Ostersonntag"
-        );
+        holidays = allGermanHolidays/*.filter(h => //callback variable 'h'
+            h.counties === null || // Ein nationaler Feiertag
+            h.counties.includes("DE-HE") || // -Landkreise – Erstellt von den API-Autoren (Name des Felds in den Daten)
+            h.name === "Ostersonntag" || h.counties.includes("DE-BB")// manuell hinzugefügt
+        ); */
 
         // Prüft, ob heute ein Feiertag ist
         const today = new Date();
