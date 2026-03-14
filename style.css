@@ -27,8 +27,9 @@ body {
     padding: 1rem;
     border-radius: 1rem;
     font-size: larger;
-    min-height: 31rem; 
+    min-height: 32rem; 
     color: antiquewhite;
+    box-shadow: 0 0 1rem limegreen;
 }
 
 .calendar-navigation {
@@ -50,6 +51,7 @@ body {
     text-align: center;
     border-radius: 50%;
     transition: 0.3s;
+    color: aquamarine;
 }
 
 /* Wochenende-Markierung (Samstag & Sonntag) */
@@ -63,15 +65,14 @@ body {
 /* Feiertage in Hessen / Feiertags-Styling */
 .dayCells.holiday {
     color: limegreen !important; 
-    text-shadow: 0 0 8px limegreen;
+    text-shadow: 0 0 0.5rem limegreen;
     cursor: help;
+    transform: scale(1.1);
 }
 
 /* Aktueller Tag / Heute */
 .current-day {
-    background-color: limegreen;
-    color: black;
-    box-shadow: 0 0 15px limegreen;
+    box-shadow: 0 0 1rem limegreen;
 }
 
 /* Buttons im Retro-Stil */
@@ -81,13 +82,12 @@ button {
     cursor: pointer;
     padding: 1rem;
     border: 0.2rem solid limegreen;
-    font-weight: bold;
     transition: 0.3s;
 }
 
 button:hover {
     background-color: limegreen;
-    box-shadow: 0 0 10px limegreen;
+    box-shadow: 0 0 1rem limegreen;
 }
 
 .dayCells.header {
@@ -97,7 +97,7 @@ button:hover {
 /* Überschriften mit Glüheffekt */
 h2, h1 {
     color: limegreen;
-    text-shadow: 0 0 5px limegreen;
+    text-shadow: 0 0 0.75rem limegreen;
 }
 
 /* Wikipedia-Ereignisse */
@@ -109,6 +109,7 @@ h2, h1 {
     margin-top: 1rem;
     background-color: rgba(0, 0, 0, 0.5); /* Hintergrund für Text-Block */
     border-radius: 0.5rem;
+    box-shadow: inset 0 0 0.75rem antiquewhite;
 }
 
 /* Tag des Jahres / Tageszähler */
@@ -122,7 +123,7 @@ h2, h1 {
 
 .event-item {
     margin-bottom: 1rem;
-    border-left: 0.2rem solid aquamarine; /* Etwas dickerer Strich */
+    border-left: 0.1rem solid #f00797; /* Etwas dickerer Strich */
     padding-left: 1rem;
 }
 
@@ -150,12 +151,12 @@ h2, h1 {
 
 .no-holiday {
     color: limegreen;
-    text-shadow: 0 0 5px rgba(50, 205, 50, 0.5);
+    text-shadow: 0 0 0.5rem rgba(50, 205, 50, 0.5);
 }
 
 .active-holiday {
     color: #ff00ff;
-    text-shadow: 0 0 10px #ff00ff;
+    text-shadow: 0 0 1rem #ff00ff;
 }
 
 /* Footer & Logo */

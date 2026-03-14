@@ -28,7 +28,7 @@ async function loadHolidays(year) {
             h.counties === null || // Ein nationaler Feiertag
             h.counties.includes("DE-HE") || // -Landkreise – Erstellt von den API-Autoren (Name des Felds in den Daten)
             h.name === "Ostersonntag" || h.counties.includes("DE-BB")// manuell hinzugefügt
-        ); */
+        );*/
 
         // Prüft, ob heute ein Feiertag ist
         const today = new Date();
@@ -103,7 +103,7 @@ function render() {
         const holiday = holidays.find(h => h.date === dateStr);
 
         // Heute markieren
-        if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+        if (i === currentDisplayDate.getDate() && month === currentDisplayDate.getMonth() && year === currentDisplayDate.getFullYear()) {
             dayDiv.classList.add('current-day');
         }
         // Feiertag markieren
@@ -126,25 +126,39 @@ async function showDayEvent() {
     try {
         const res = await fetch(url);
         const data = await res.json();
-        const topEvents = data.events.slice(0, 5);
-        
+
+        // Wichtige herausfiltern
+        let filtered = data.events.filter(ev => ev.selected);
+
+        // Wenn nicht, nehmen alles
+        if (filtered.length === 0) {
+            filtered = data.events;
+        }
+
+        const topEvents = filtered
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 5);
+                
         el.innerHTML = topEvents
             .map(ev => `<div class="event-item"><b>${ev.year}</b>: ${ev.text}</div>`)
             .join('<br>');
+            
     } catch (err) {
         if (el) el.innerText = "Ladefehler";
     }
 }
 
 // Event-Listener für Buttons
-document.getElementById('prevMonth').onclick = () => {
-    currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
+document.getElementById('nextMonth').onclick = (event) => {
+    event.preventDefault(); // Neustart wird abgebrochen.
+    currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
     loadHolidays(currentDisplayDate.getFullYear());
     showDayEvent();
 };
 
-document.getElementById('nextMonth').onclick = () => {
-    currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
+document.getElementById('prevMonth').onclick = (event) => {
+    event.preventDefault(); // Neustart wird abgebrochen.
+    currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
     loadHolidays(currentDisplayDate.getFullYear());
     showDayEvent();
 };
