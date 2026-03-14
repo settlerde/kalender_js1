@@ -26,7 +26,7 @@ h1, h2 {
 
 #ereignisse, p, .calendar-container {
     background-color: var(--glass-bg);
-    border-radius: 1rem;
+    border-radius: 1.5rem;
 }
 
 .calendar-container {
@@ -55,7 +55,7 @@ h1, h2 {
 
 .dayCells {
     text-align: center;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     transition: 0.3s;
     padding: 1rem;
 }
@@ -92,7 +92,7 @@ h1, h2 {
 button {
     background-color: var(--neon-aqua);
     border: 0.2rem solid var(--neon-green);
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     cursor: pointer;
     padding: 1rem;
     transition: 0.3s;
@@ -106,9 +106,8 @@ button:hover {
 #ereignisse, p {
     text-align: start;
     color: antiquewhite;
-    max-width: 36rem;
-    padding: 1rem;
-    margin-top: 1rem;
+    max-width: 35rem;
+    padding: 1.5rem;
     box-shadow: inset 0 0 0.75rem antiquewhite;
 }
 
@@ -116,7 +115,7 @@ button:hover {
     background-color: var(--neon-aqua);
     color: black;
     padding: 0.2rem 0.6rem;
-    border-radius: 25%;
+    border-radius: 1rem;
     display: inline-block;
 }
 
@@ -126,7 +125,6 @@ button:hover {
     padding-left: 1rem;
 }
 
-/* Бегущая строка (оптимизировано через transform для плавности) */
 #holiday-banner {
     margin: 1rem 0;
     width: 100%;
@@ -149,12 +147,12 @@ button:hover {
 .no-holiday { color: var(--neon-green); text-shadow: 0 0 0.5rem rgba(50, 205, 50, 0.5); }
 .active-holiday { color: var(--neon-pink); text-shadow: 0 0 1rem var(--neon-pink); }
 
-/* Footer */
 .logo {
     max-width: 10rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem var(--neon-green);
     transition: transform 0.3s;
+    margin: 1rem;
 }
 
 .logo:hover { transform: scale(1.1); }

@@ -1,0 +1,65 @@
+@media (max-width: 600px) {
+    .main-app-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        width: 100%;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        margin: 0.5rem;
+    }
+
+    .calendar-container {
+        width: 95vw;         
+        height: auto;        
+        min-height: auto;
+        padding: 0.5rem;
+        margin: 1rem auto;
+        font-size: 1rem;     
+    }
+
+    .calendar-grid {
+        gap: 0.15rem;
+    }
+
+    .dayCells {
+        padding: 0.6rem 0.1rem; 
+        font-size: 0.85rem;
+        border-radius: 0.5rem;
+    }
+
+    .calendar-navigation h2 {
+        font-size: 1.1rem;
+    }
+
+    button {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    #ereignisse, p {
+        padding: 0.75rem;
+        margin-left: 0.75rem;
+    }
+
+    h1 { font-size: 1.5rem; }
+    
+    .logo {
+        max-width: 7rem;
+    }
+
+    #holiday-banner {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .dayCells {
+        font-size: 0.75rem;
+    }
+    
+    .calendar-navigation h2 {
+        font-size: 0.9rem;
+    }
+}
