@@ -15,48 +15,40 @@ function daysCount() {
     const oneDayMs = 1000 * 60 * 60 * 24;
     return Math.floor(diffMs / oneDayMs) + 1;
 }
-document.getElementById('tagDesJahres').innerHTML = daysCount();
+
+const tagElement = document.getElementById('tagDesJahres');
+if (tagElement) tagElement.innerHTML = daysCount();
 
 // Lädt Feiertage aus der API
 async function loadHolidays(year) {
     try {
         const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/DE`);
-        const allGermanHolidays = await res.json();
-        console.log(allGermanHolidays);
-        // Filter für Hessen und Ostersonntag
-        holidays = allGermanHolidays/*.filter(h => //callback variable 'h'
-            h.counties === null || // Ein nationaler Feiertag
-            h.counties.includes("DE-HE") || // -Landkreise – Erstellt von den API-Autoren (Name des Felds in den Daten)
-            h.name === "Ostersonntag" || h.counties.includes("DE-BB")// manuell hinzugefügt
-        );*/
-
-        // Prüft, ob heute ein Feiertag ist
+        holidays = await res.json();
+        
         const today = new Date();
         const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
         const currentHoliday = holidays.find(h => h.date === todayStr);
         const banner = document.getElementById('holiday-banner');
 
-        // Liste der stillen Tage
-        const stilleTage = ["Karfreitag", "Allerheiligen", "Volkstrauertag", "Totensonntag"];
+        if (banner) {
+            const stilleTage = ["Karfreitag", "Allerheiligen", "Volkstrauertag", "Totensonntag"];
+            if (currentHoliday) {
+                let msg = `🎉 HEUTE: ${currentHoliday.localName}`;
+                if (stilleTage.some(t => currentHoliday.name.includes(t))) msg += " 🤫 (Stiller Tag)";
+                banner.innerHTML = `<div class="marquee">${msg}</div>`;
+                banner.className = 'active-holiday';
+            } else {
+                banner.innerHTML = `<div class="marquee">📡 STATUS: Heute gibt es keine Feiertage.</div>`;
+                banner.className = 'no-holiday';
+            }
 
-        if (currentHoliday) {
-            let msg = `🎉 HEUTE: ${currentHoliday.localName}`;
-            if (stilleTage.some(t => currentHoliday.name.includes(t))) msg += " 🤫 (Stiller Tag)";
-            banner.innerHTML = `<div class="marquee">${msg}</div>`;
-            banner.className = 'active-holiday';
-        } else {
-            banner.innerHTML = `<div class="marquee">📡 STATUS: Heute gibt es keine Feiertage.</div>`;
-            banner.className = 'no-holiday';
+            banner.style.display = 'block';
+            banner.style.opacity = '1';
+            setTimeout(() => {
+                banner.style.opacity = '0';
+                setTimeout(() => { banner.style.display = 'none'; }, 1000);
+            }, 10000);
         }
-
-        /// Banner nach 10 Sek. ausblenden
-        banner.style.display = 'block';
-        banner.style.opacity = '1';
-        setTimeout(() => {
-            banner.style.opacity = '0';
-            setTimeout(() => { banner.style.display = 'none'; }, 1000);
-        }, 10000);
-
         render(); 
     } catch (err) {
         console.error("API Fehler", err);
@@ -70,6 +62,7 @@ function render() {
     const month = currentDisplayDate.getMonth();
     const calendarGrid = document.getElementById('calendarGrid');
     
+    if (!calendarGrid) return;
     calendarGrid.innerHTML = '';
     document.getElementById('aktuel-monat').innerText = `${monthNamesDe[month]} ${year}`;
 
@@ -85,7 +78,7 @@ function render() {
         calendarGrid.appendChild(dayName);
     });
 
-    // Leere Zellen vor dem ersten Tag
+    // Leere Zellen
     for (let e = 0; e < dayOffsetCount; e++) {
         const emptyCell = document.createElement('div');
         emptyCell.classList.add('dayCells', 'empty');
@@ -93,20 +86,40 @@ function render() {
     }
 
     // Tage generieren
-    const today = new Date();
     for (let i = 1; i <= daysInMonth; i++) {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('dayCells');
         dayDiv.innerText = i;
 
+        // КЛИК НА ДЕНЬ
+        dayDiv.onclick = () => {
+    // 1. Выделение ячейки
+    document.querySelectorAll('.dayCells').forEach(cell => cell.classList.remove('selected-day'));
+    dayDiv.classList.add('selected-day');
+
+    // 2. Запоминаем данные
+    currentSelectedDay = i;
+    const currentMonth = currentDisplayDate.getMonth() + 1;
+    const currentYear = currentDisplayDate.getFullYear();
+
+    // 3. Меняем заголовок в сайдбаре
+    document.getElementById('selectedDateTitle').innerText = `Notiz: ${i}. ${monthNamesDe[currentMonth-1]}`;
+
+    // 4. Грузим историю
+    showDayEvent(i, currentMonth);
+
+    // 5. Грузим заметку
+    const key = `note-${currentYear}-${currentMonth}-${i}`;
+    document.getElementById('dayNote').value = localStorage.getItem(key) || "";
+};
+
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
         const holiday = holidays.find(h => h.date === dateStr);
 
-        // Heute markieren
-        if (i === currentDisplayDate.getDate() && month === currentDisplayDate.getMonth() && year === currentDisplayDate.getFullYear()) {
+        if (i === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
             dayDiv.classList.add('current-day');
         }
-        // Feiertag markieren
+        
         if (holiday) {
             dayDiv.classList.add('holiday');
             dayDiv.title = holiday.localName;
@@ -116,53 +129,70 @@ function render() {
 }
 
 // Lädt historische Ereignisse von Wikipedia
-async function showDayEvent() {
-    const month = currentDisplayDate.getMonth() + 1;
-    const day = (currentDisplayDate.getMonth() === new Date().getMonth()) ? new Date().getDate() : 1;
-    
+async function showDayEvent(day, month) {
+    // Если параметры не переданы, берем 1-е число или текущий день
+    if (!day || !month) {
+        day = (currentDisplayDate.getMonth() === new Date().getMonth()) ? new Date().getDate() : 1;
+        month = currentDisplayDate.getMonth() + 1;
+    }
+
     const url = `https://de.wikipedia.org/api/rest_v1/feed/onthisday/events/${month}/${day}`;
     const el = document.getElementById('ereignisse'); 
     
+    if (!el) return;
+    el.innerHTML = "Lade Ereignisse..."; 
+
     try {
         const res = await fetch(url);
         const data = await res.json();
 
-        // Wichtige herausfiltern
         let filtered = data.events.filter(ev => ev.selected);
-
-        // Wenn nicht, nehmen alles
-        if (filtered.length === 0) {
-            filtered = data.events;
-        }
+        if (filtered.length === 0) filtered = data.events;
 
         const topEvents = filtered
             .sort(() => Math.random() - 0.5)
-            .slice(0, 5);
-                
+            .slice(0, 5)
+            .sort((a, b) => a.year - b.year);
+        
         el.innerHTML = topEvents
-            .map(ev => `<div class="event-item"><b>${ev.year}</b>: ${ev.text}</div>`)
-            .join('<br>');
+            .map(ev => `
+                <div class="event-item" style="margin-bottom: 1rem; border-left: 0.1rem solid #f00797; padding-left: 1rem;">
+                    <b style="color: #f00797;">${ev.year}</b>: ${ev.text}
+                </div>
+            `).join('');
             
     } catch (err) {
-        if (el) el.innerText = "Ladefehler";
+        el.innerText = "Keine Daten gefunden.";
     }
 }
 
-// Event-Listener für Buttons
-document.getElementById('nextMonth').onclick = (event) => {
-    event.preventDefault(); // Neustart wird abgebrochen.
+// Обновление вида
+async function updateCalendarView() {
+    render(); 
+    try {
+        await Promise.all([
+            loadHolidays(currentDisplayDate.getFullYear()),
+            showDayEvent() // Вызов без параметров загрузит 1-е число месяца
+        ]);
+    } catch (e) {
+        console.error("Fehler:", e);
+    }
+}
+
+// Слушатели кнопок
+document.getElementById('nextMonth').addEventListener('click', (e) => {
+    e.preventDefault();
     currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
-    loadHolidays(currentDisplayDate.getFullYear());
-    showDayEvent();
-};
+    updateCalendarView();
+});
 
-document.getElementById('prevMonth').onclick = (event) => {
-    event.preventDefault(); // Neustart wird abgebrochen.
+document.getElementById('prevMonth').addEventListener('click', (e) => {
+    e.preventDefault();
     currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
-    loadHolidays(currentDisplayDate.getFullYear());
-    showDayEvent();
-};
+    updateCalendarView();
+});
 
-// Start der Anwendung
-loadHolidays(currentDisplayDate.getFullYear());
-showDayEvent();
+// Старт
+document.addEventListener('DOMContentLoaded', () => {
+    updateCalendarView();
+});

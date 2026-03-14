@@ -1,4 +1,10 @@
-/* Haupt-Stil für die Seite / Hauptlayout */
+:root {
+    --neon-green: limegreen;
+    --neon-pink: #f00797;
+    --neon-aqua: aquamarine;
+    --glass-bg: rgba(0, 0, 0, 0.5);
+}
+
 body {
     font-family: 'Courier New', Courier, monospace;
     display: flex;
@@ -7,29 +13,31 @@ body {
     text-align: center;
     font-weight: bold;
     width: 100%;
-    /* Hintergrundbild und Fallback-Farbe */
     background: black url('https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=2000') no-repeat center center fixed;
     background-size: cover;
     min-height: 100vh;
     margin: 0;
 }
 
-.header {
-    text-align: center;
-    padding: 1rem;
+h1, h2 {
+    color: var(--neon-green);
+    text-shadow: 0 0 0.75rem var(--neon-green);
 }
 
-/* Kalender-Container mit Neon-Effekt */
+#ereignisse, p, .calendar-container {
+    background-color: var(--glass-bg);
+    border-radius: 1rem;
+}
+
 .calendar-container {
-    background-color: rgba(0, 0, 0, 0.5); /* Dunkler Hintergrund für bessere Lesbarkeit */
-    border: 0.5rem groove limegreen;
+    border: 0.5rem groove var(--neon-green);
     margin: 1rem;
     padding: 1rem;
-    border-radius: 1rem;
     font-size: larger;
-    min-height: 32rem; 
     color: antiquewhite;
-    box-shadow: 0 0 1rem limegreen;
+    box-shadow: 0 0 1rem var(--neon-green);
+    width: 35rem;
+    height: 35rem;
 }
 
 .calendar-navigation {
@@ -45,89 +53,80 @@ body {
     gap: 0.25rem;
 }
 
-/* Zellen-Styling / Kalender-Tage */
 .dayCells {
-    padding: 1rem;
     text-align: center;
-    border-radius: 50%;
+    border-radius: 1rem;
     transition: 0.3s;
-    color: aquamarine;
+    padding: 1rem;
 }
 
-/* Wochenende-Markierung (Samstag & Sonntag) */
 .dayCells:nth-child(7n), 
 .dayCells:nth-child(7n + 6),
 .dayCells.header:nth-child(7n), 
 .dayCells.header:nth-child(7n + 6) {
-    color: #f00797; 
+    color: var(--neon-pink);
 }
 
-/* Feiertage in Hessen / Feiertags-Styling */
 .dayCells.holiday {
-    color: limegreen !important; 
-    text-shadow: 0 0 0.5rem limegreen;
+    color: var(--neon-green) !important;
+    text-shadow: 0 0 1rem var(--neon-pink);
     cursor: help;
     transform: scale(1.1);
 }
 
-/* Aktueller Tag / Heute */
-.current-day {
-    box-shadow: 0 0 1rem limegreen;
+.current-day { box-shadow: 0 0 1.5rem var(--neon-green); }
+.selected-day { border: 0.1rem solid var(--neon-green) !important; cursor: pointer; }
+
+.dayCells.header, .dayCells.empty {
+    color: var(--neon-aqua);
+    background-color: transparent !important;
+    pointer-events: none;
 }
 
-/* Buttons im Retro-Stil */
+.dayCells:hover:not(.header, .empty) {
+    background-color: var(--neon-green);
+    cursor: pointer;
+    color: black;
+}
+
 button {
-    background-color: aquamarine;
-    border-radius: 50%;
+    background-color: var(--neon-aqua);
+    border: 0.2rem solid var(--neon-green);
+    border-radius: 1rem;
     cursor: pointer;
     padding: 1rem;
-    border: 0.2rem solid limegreen;
     transition: 0.3s;
 }
 
 button:hover {
-    background-color: limegreen;
-    box-shadow: 0 0 1rem limegreen;
+    background-color: var(--neon-green);
+    box-shadow: 0 0 1rem var(--neon-green);
 }
 
-.dayCells.header {
-    color: aquamarine;
-}
-
-/* Überschriften mit Glüheffekt */
-h2, h1 {
-    color: limegreen;
-    text-shadow: 0 0 0.75rem limegreen;
-}
-
-/* Wikipedia-Ereignisse */
 #ereignisse, p {
     text-align: start;
     color: antiquewhite;
-    max-width: 40rem;
+    max-width: 36rem;
     padding: 1rem;
     margin-top: 1rem;
-    background-color: rgba(0, 0, 0, 0.5); /* Hintergrund für Text-Block */
-    border-radius: 0.5rem;
     box-shadow: inset 0 0 0.75rem antiquewhite;
 }
 
-/* Tag des Jahres / Tageszähler */
 #tagDesJahres {
-    background-color: aquamarine;
+    background-color: var(--neon-aqua);
     color: black;
-    padding: 0.2rem 0.6rem; /* Mehr Platz an den Seiten */
+    padding: 0.2rem 0.6rem;
     border-radius: 25%;
     display: inline-block;
 }
 
 .event-item {
     margin-bottom: 1rem;
-    border-left: 0.1rem solid #f00797; /* Etwas dickerer Strich */
+    border-left: 0.1rem solid var(--neon-pink);
     padding-left: 1rem;
 }
 
-/* Laufschrift-Banner / Marquee */
+/* Бегущая строка (оптимизировано через transform для плавности) */
 #holiday-banner {
     margin: 1rem 0;
     width: 100%;
@@ -135,43 +134,27 @@ h2, h1 {
     transition: opacity 1s ease;
 }
 
-/* Laufschrift-Effekt / Lauftext-Styling */
 .marquee {
-    display: inline-block;     /* Verhält sich wie ein Block, passt sich aber dem Text an */
-    white-space: nowrap;       /* Verhindert den Zeilenumbruch, Text bleibt in einer Zeile */
-    padding-left: 100%;        /* Startet den Text außerhalb des sichtbaren Bereichs (rechts) */
-    animation: marquee 15s linear infinite; /* Animation: 15 Sek, gleichmäßig, unendlich */
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: marquee 15s linear infinite;
 }
 
-/* Animations-Logik für die Laufschrift */
 @keyframes marquee {
-    0%   { transform: translate(0, 0); }      /* Startposition: ganz rechts */
-    100% { transform: translate(-100%, 0); }  /* Endposition: komplett nach links aus dem Bild gefahren */
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
-.no-holiday {
-    color: limegreen;
-    text-shadow: 0 0 0.5rem rgba(50, 205, 50, 0.5);
-}
+.no-holiday { color: var(--neon-green); text-shadow: 0 0 0.5rem rgba(50, 205, 50, 0.5); }
+.active-holiday { color: var(--neon-pink); text-shadow: 0 0 1rem var(--neon-pink); }
 
-.active-holiday {
-    color: #ff00ff;
-    text-shadow: 0 0 1rem #ff00ff;
-}
-
-/* Footer & Logo */
-footer {
-    margin: 1rem;
-    text-align: center;
-}
-
+/* Footer */
 .logo {
     max-width: 10rem;
     border-radius: 0.5rem;
-    box-shadow: 0 0 1rem limegreen;
+    box-shadow: 0 0 1rem var(--neon-green);
     transition: transform 0.3s;
 }
 
-.logo:hover {
-    transform: scale(1.1); /* Zoom-Effekt beim Hover */
-}
+.logo:hover { transform: scale(1.1); }
