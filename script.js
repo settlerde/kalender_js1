@@ -91,27 +91,15 @@ function render() {
         dayDiv.classList.add('dayCells');
         dayDiv.innerText = i;
 
-        // КЛИК НА ДЕНЬ
         dayDiv.onclick = () => {
-    // 1. Выделение ячейки
+    // Zelle auswählen
     document.querySelectorAll('.dayCells').forEach(cell => cell.classList.remove('selected-day'));
     dayDiv.classList.add('selected-day');
-
-    // 2. Запоминаем данные
-    currentSelectedDay = i;
+    
     const currentMonth = currentDisplayDate.getMonth() + 1;
-    const currentYear = currentDisplayDate.getFullYear();
-
-    // 3. Меняем заголовок в сайдбаре
-    document.getElementById('selectedDateTitle').innerText = `Notiz: ${i}. ${monthNamesDe[currentMonth-1]}`;
-
-    // 4. Грузим историю
+    // Ladeverlauf
     showDayEvent(i, currentMonth);
-
-    // 5. Грузим заметку
-    const key = `note-${currentYear}-${currentMonth}-${i}`;
-    document.getElementById('dayNote').value = localStorage.getItem(key) || "";
-};
+    };
 
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
         const holiday = holidays.find(h => h.date === dateStr);
@@ -130,7 +118,7 @@ function render() {
 
 // Lädt historische Ereignisse von Wikipedia
 async function showDayEvent(day, month) {
-    // Если параметры не переданы, берем 1-е число или текущий день
+    // Parameter wurden nicht übergeben, es wird der erste oder der aktuelle Tag verwendet.
     if (!day || !month) {
         day = (currentDisplayDate.getMonth() === new Date().getMonth()) ? new Date().getDate() : 1;
         month = currentDisplayDate.getMonth() + 1;
@@ -155,31 +143,29 @@ async function showDayEvent(day, month) {
             .sort((a, b) => a.year - b.year);
         
         el.innerHTML = topEvents
-            .map(ev => `
-                <div class="event-item" style="margin-bottom: 1rem; border-left: 0.1rem solid #f00797; padding-left: 1rem;">
-                    <b style="color: #f00797;">${ev.year}</b>: ${ev.text}
-                </div>
-            `).join('');
+            // Umwandlung eines Arrays in eine Zeichenkette
+            .map(ev => `<div class="event-item" style="margin-bottom: 1rem; border-left: 0.1rem solid #f00797; padding-left: 1rem;">
+                            <b style="color: #f00797;">${ev.year}</b>: ${ev.text}
+                        </div>`).join('');
             
     } catch (err) {
         el.innerText = "Keine Daten gefunden.";
     }
 }
 
-// Обновление вида
+// Aktualisierung anzeigen
 async function updateCalendarView() {
     render(); 
     try {
         await Promise.all([
             loadHolidays(currentDisplayDate.getFullYear()),
-            showDayEvent() // Вызов без параметров загрузит 1-е число месяца
+            showDayEvent()
         ]);
     } catch (e) {
         console.error("Fehler:", e);
     }
 }
 
-// Слушатели кнопок
 document.getElementById('nextMonth').addEventListener('click', (e) => {
     e.preventDefault();
     currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
@@ -192,7 +178,6 @@ document.getElementById('prevMonth').addEventListener('click', (e) => {
     updateCalendarView();
 });
 
-// Старт
 document.addEventListener('DOMContentLoaded', () => {
     updateCalendarView();
 });
