@@ -49,7 +49,6 @@ h1, h2 {
     color: antiquewhite;
     box-shadow: 0 0 1rem var(--neon-green);
     width: 38rem;
-    height: 38rem;
 }
 
 .calendar-navigation {
@@ -62,7 +61,7 @@ h1, h2 {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(7, 1fr);
     gap: 0.25rem;
     min-height: 30rem;
     text-align: center;
@@ -86,7 +85,6 @@ h1, h2 {
     color: var(--neon-green) !important;
     text-shadow: 0 0 1rem var(--neon-pink);
     cursor: help;
-    transform: scale(1.1);
 }
 
 .current-day { box-shadow: 0 0 1.5rem var(--neon-green); }
