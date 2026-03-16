@@ -70,7 +70,7 @@ function render() {
         displayElement.innerText = `${formattedDate}`;
     }
     // ändert titel
-    document.title = `Kalender von | ${formattedDate}.${currentDisplayDate.getFullYear()}`;
+    document.title = `Kalender von | ${formattedDate}${currentDisplayDate.getFullYear()}`;
 
     showDayEvent(i, currentMonth);
 };

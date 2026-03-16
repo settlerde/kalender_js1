@@ -5,7 +5,7 @@
     --glass-bg: rgba(0, 0, 0, 0.5);
 }
 
-/* Полный запрет на растягивание страницы вширь */
+/* doesnt alow page stretch */
 html, body {
     overflow-x: hidden;
     width: 100%;
@@ -92,16 +92,10 @@ h1, h2 {
 .current-day { box-shadow: 0 0 1.5rem var(--neon-green); }
 .selected-day { border: 0.1rem solid var(--neon-green) !important; cursor: pointer; }
 
-.dayCells.header, .dayCells.empty {
-    color: var(--neon-aqua);
-    background-color: transparent !important;
-    pointer-events: none;
-}
-
 .dayCells:hover:not(.header, .empty) {
     background-color: var(--neon-green);
     cursor: pointer;
-    color: black;
+    color: black !important;
 }
 
 button {
@@ -121,9 +115,9 @@ button:hover {
 #ereignisse, p {
     text-align: start;
     color: antiquewhite;
-    max-width: 40rem;
+    max-width: 38rem;
     padding: 2rem;
-    box-shadow: inset 0 0 0.75rem antiquewhite;
+    box-shadow: inset 0 0 1rem antiquewhite;
 }
 
 #tagDesJahres {
@@ -173,4 +167,4 @@ button:hover {
     margin: 1rem;
 }
 
-.logo:hover { transform: scale(1.1); }
+.logo:hover { transform: scale(1.3); }
