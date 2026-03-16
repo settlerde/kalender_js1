@@ -5,6 +5,15 @@
     --glass-bg: rgba(0, 0, 0, 0.5);
 }
 
+/* Полный запрет на растягивание страницы вширь */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Courier New', Courier, monospace;
     display: flex;
@@ -17,6 +26,9 @@ body {
     background-size: cover;
     min-height: 100vh;
     margin: 0;
+    overflow-x: hidden;    /* Магическая строчка: скрывает всё, что вылезло вбок */
+    width: 100vw;          /* Берем ровно ширину видимой части экрана */
+    position: relative;
 }
 
 h1, h2 {
@@ -36,8 +48,8 @@ h1, h2 {
     font-size: larger;
     color: antiquewhite;
     box-shadow: 0 0 1rem var(--neon-green);
-    width: 35rem;
-    height: 35rem;
+    width: 38rem;
+    height: 38rem;
 }
 
 .calendar-navigation {
@@ -50,14 +62,17 @@ h1, h2 {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
     gap: 0.25rem;
+    min-height: 30rem;
+    text-align: center;
 }
 
 .dayCells {
-    text-align: center;
-    border-radius: 1.5rem;
+    border-radius: 1.25rem;
     transition: 0.3s;
-    padding: 1rem;
+    margin: 0.5rem;
+    padding: 0.75rem;
 }
 
 .dayCells:nth-child(7n), 
@@ -106,8 +121,8 @@ button:hover {
 #ereignisse, p {
     text-align: start;
     color: antiquewhite;
-    max-width: 35rem;
-    padding: 1.5rem;
+    max-width: 40rem;
+    padding: 2rem;
     box-shadow: inset 0 0 0.75rem antiquewhite;
 }
 
@@ -127,15 +142,18 @@ button:hover {
 
 #holiday-banner {
     margin: 1rem 0;
-    width: 100%;
-    overflow: hidden;
-    transition: opacity 1s ease;
+    width: 100%;           /* Строка не должна быть шире экрана */
+    max-width: 38rem;      /* Ограничиваем её так же, как календарь */
+    overflow: hidden;      /* ВСЁ, что вылетает за границы, обрезается */
+    margin-left: auto;     /* Центрируем сам контейнер */
+    margin-right: auto;
+    border-radius: 1rem;
 }
 
 .marquee {
     display: inline-block;
     white-space: nowrap;
-    padding-left: 100%;
+    /* Убираем padding-left: 100%, если он ломает ширину */
     animation: marquee 15s linear infinite;
 }
 

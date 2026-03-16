@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media_queries.css">
-    <title>Kalender JS</title>
+    <title id="titel">Kalender JS</title>
 </head>
 <body>
     <div class="header">
@@ -24,7 +24,8 @@
 </div>
 <div class="todayIs">
         <div id="holiday-banner"></div>
-    <h2>Historische Ereignisse des Tages:</h2>
+    <h2>Historische Ereignisse des Tages</h2>
+    <h2 id="selected-date-display">_______</h2>
     <p id="ereignisse">...</p> 
 </div>
 <footer class="footer">
@@ -33,5 +34,6 @@
 </footer>
     
     <script src="script.js"></script>
+    <script src="apis.js"></script>
 </body>
 </html>

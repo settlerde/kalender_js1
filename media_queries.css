@@ -1,31 +1,41 @@
-@media (max-width: 600px) {
-    .main-app-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        width: 100%;
+/* --- МЕДИА-ЗАПРОСЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ --- */
+
+@media (max-width: 640px) {
+    /* 1. Убираем фиксированную ширину/высоту в 38rem и переходим на проценты */
+    .calendar-container {
+        width: 95vw;
+        height: auto; /* На мобилках лучше авто-высота, чтобы избежать пустых дыр */
+        margin: 1rem 0;
         padding: 0.5rem;
         box-sizing: border-box;
-        margin: 0.5rem;
     }
 
-    .calendar-container {
-        width: 85vw;         
-        height: auto;        
-        min-height: auto;
-        padding: 0.5rem;
-        font-size: 1rem;     
-    }
-
+    /* 2. Адаптируем сетку */
     .calendar-grid {
-        gap: 0.15rem;
+        min-height: auto; /* Снимаем жесткое ограничение высоты */
+        gap: 0.1rem;
+        grid-template-rows: repeat(6, auto); /* Ряды подстроятся под размер ячеек */
     }
 
+    /* 3. Уменьшаем ячейки, чтобы они не вылезали за края */
     .dayCells {
-        padding: 0.6rem 0.1rem; 
-        font-size: 0.85rem;
+        margin: 0.1rem;
+        padding: 0.5rem 0.1rem;
+        font-size: 0.85rem; /* Чуть меньше шрифт */
         border-radius: 0.5rem;
+    }
+
+    /* 4. Блоки событий и текста */
+    #ereignisse, p {
+        max-width: 95vw;
+        width: 95vw;
+        padding: 1rem;
+        box-sizing: border-box;
+        font-size: 0.9rem;
+    }
+
+    .calendar-navigation {
+        margin: 0.5rem;
     }
 
     .calendar-navigation h2 {
@@ -33,31 +43,49 @@
     }
 
     button {
-        padding: 0.6rem;
+        padding: 0.6rem 0.8rem;
         font-size: 0.9rem;
     }
 
-    #ereignisse, p {
-        padding: 0.75rem;
-    }
-
-    h1, h2 { font-size: 1.1rem; }
-    
+    /* 6. Логотип и подписи */
     .logo {
         max-width: 7rem;
     }
-
-    #holiday-banner {
-        font-size: 0.8rem;
-    }
 }
 
-@media (max-width: 380px) {
-    .dayCells {
-        font-size: 0.75rem;
+/* Исправление для маленьких экранов */
+@media (max-width: 350px) {
+    /* 1. Бегущая строка НЕ должна распирать экран */
+    #holiday-banner {
+        width: 100vw;
+        overflow: hidden;
+        margin: 0.5rem 0;
     }
-    
-    .calendar-navigation h2 {
-        font-size: 0.9rem;
+
+    .marquee {
+        padding-left: 0; /* Убираем лишние отступы, ломающие ширину */
+    }
+
+    /* 2. Блоки событий и текста — уменьшаем padding! */
+    #ereignisse, p, .calendar-container {
+        width: 92vw !important; /* Берем почти всю ширину экрана */
+        padding: 0.8rem !important; /* Уменьшаем с 1.5 до 0.8 */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: none;
+    }
+
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+    }
+
+    .dayCells {
+        font-size: 0.65rem; /* Еще меньше шрифт для микро-экранов */
+        padding: 0.2rem 0;
+    }
+
+    h1, h2 {
+        font-size: 1.1rem;
     }
 }
