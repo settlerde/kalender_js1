@@ -11,11 +11,10 @@
     }
 
     .calendar-container {
-        width: 95vw;         
+        width: 85vw;         
         height: auto;        
         min-height: auto;
         padding: 0.5rem;
-        margin: 1.5rem auto;
         font-size: 1rem;     
     }
 
@@ -40,10 +39,9 @@
 
     #ereignisse, p {
         padding: 0.75rem;
-        margin-left: 0.75rem;
     }
 
-    h1 { font-size: 1.5rem; }
+    h1, h2 { font-size: 1.1rem; }
     
     .logo {
         max-width: 7rem;
