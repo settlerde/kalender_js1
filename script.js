@@ -1,5 +1,6 @@
 // Globale Variablen
 let currentDisplayDate = new Date();
+let month = currentDisplayDate.getMonth();
 let holidays = []; 
 const monthNamesDe = [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -22,12 +23,17 @@ if (tagElement) tagElement.innerHTML = daysCount();
 // Render / Zeichnet das Kalender-Grid
 function render() {
     const year = currentDisplayDate.getFullYear();
-    const month = currentDisplayDate.getMonth();
+    //const month = currentDisplayDate.getMonth();
     const calendarGrid = document.getElementById('calendarGrid');
     
     if (!calendarGrid) return;
     calendarGrid.innerHTML = '';
     document.getElementById('aktuel-monat').innerText = `${monthNamesDe[month]} ${year}`;
+
+    let h1 = document.getElementById('h1');
+    if (h1) {
+        h1.innerText = `Kalenderblatt vom | ${currentDisplayDate.getDate()} ${monthNamesDe[month]}`;
+    }
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     let firstDayIndex = new Date(year, month, 1).getDay();
@@ -71,6 +77,11 @@ function render() {
     }
     // ändert titel
     document.title = `Kalenderblatt vom | ${formattedDate}${currentDisplayDate.getFullYear()}`;
+
+    let h1 = document.getElementById('h1');
+    if (h1) {
+        h1.innerText = `Kalenderblatt vom | ${formattedDate}${currentDisplayDate.getFullYear()}`;
+    }
 
     showDayEvent(i, currentMonth);
 };
