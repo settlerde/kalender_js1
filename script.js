@@ -23,7 +23,7 @@ if (tagElement) tagElement.innerHTML = daysCount();
 // Render / Zeichnet das Kalender-Grid
 function render() {
     const year = currentDisplayDate.getFullYear();
-    //const month = currentDisplayDate.getMonth();
+    const month = currentDisplayDate.getMonth();
     const calendarGrid = document.getElementById('calendarGrid');
     
     if (!calendarGrid) return;
@@ -32,7 +32,7 @@ function render() {
 
     let h1 = document.getElementById('h1');
     if (h1) {
-        h1.innerText = `Kalenderblatt vom | ${currentDisplayDate.getDate()} ${monthNamesDe[month]}`;
+        h1.innerText = `Kalenderblatt vom ${currentDisplayDate.getFullYear()} ${monthNamesDe[month]}`;
     }
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -77,11 +77,6 @@ function render() {
     }
     // ändert titel
     document.title = `Kalenderblatt vom | ${formattedDate}${currentDisplayDate.getFullYear()}`;
-
-    let h1 = document.getElementById('h1');
-    if (h1) {
-        h1.innerText = `Kalenderblatt vom | ${formattedDate}${currentDisplayDate.getFullYear()}`;
-    }
 
     showDayEvent(i, currentMonth);
 };
