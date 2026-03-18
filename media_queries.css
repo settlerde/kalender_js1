@@ -1,75 +1,59 @@
 /* --- МЕДИА-ЗАПРОСЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ --- */
 
-@media (max-width: 640px) {
-    /* 1. Убираем фиксированную ширину/высоту в 38rem и переходим на проценты */
+@media (max-width: 720px) {
+    html, body {font-size: 85%;}
+
     .calendar-container {
         width: 95vw;
-        height: auto; /* На мобилках лучше авто-высота, чтобы избежать пустых дыр */
+        height: auto;
         margin: 1rem 0;
         padding: 0.5rem;
         box-sizing: border-box;
     }
 
-    /* 2. Адаптируем сетку */
     .calendar-grid {
-        min-height: auto; /* Снимаем жесткое ограничение высоты */
+        min-height: auto;
         gap: 0.1rem;
-        grid-template-rows: repeat(6, auto); /* Ряды подстроятся под размер ячеек */
+        grid-template-rows: repeat(6, auto);
     }
 
-    /* 3. Уменьшаем ячейки, чтобы они не вылезали за края */
     .dayCells {
         margin: 0.1rem;
         padding: 0.5rem 0.1rem;
-        font-size: 0.85rem; /* Чуть меньше шрифт */
         border-radius: 0.5rem;
     }
 
-    /* 4. Блоки событий и текста */
     #ereignisse, p {
         max-width: 95vw;
         width: 95vw;
         padding: 1rem;
         box-sizing: border-box;
-        font-size: 0.9rem;
     }
 
     .calendar-navigation {
         margin: 0.5rem;
     }
 
-    .calendar-navigation h2 {
-        font-size: 1.1rem;
-    }
 
     button {
         padding: 0.6rem 0.8rem;
-        font-size: 0.9rem;
     }
 
-    /* 6. Логотип и подписи */
     .logo {
         max-width: 7rem;
     }
 }
 
-/* Исправление для маленьких экранов */
 @media (max-width: 350px) {
-    /* 1. Бегущая строка НЕ должна распирать экран */
     #holiday-banner {
         width: 100vw;
         overflow: hidden;
         margin: 0.5rem 0;
     }
 
-    .marquee {
-        padding-left: 0; /* Убираем лишние отступы, ломающие ширину */
-    }
-
-    /* 2. Блоки событий и текста — уменьшаем padding! */
     #ereignisse, p, .calendar-container {
-        width: 92vw !important; /* Берем почти всю ширину экрана */
-        padding: 0.8rem !important; /* Уменьшаем с 1.5 до 0.8 */
+        width: 92vw !important; 
+        padding: 0.8rem !important; 
         margin-left: auto !important;
         margin-right: auto !important;
         max-width: none;
@@ -77,15 +61,10 @@
 
     .calendar-grid {
         grid-template-columns: repeat(7, 1fr);
-        gap: 1px;
+        gap: 0.1rem;
     }
 
     .dayCells {
-        font-size: 0.65rem; /* Еще меньше шрифт для микро-экранов */
         padding: 0.2rem 0;
-    }
-
-    h1, h2 {
-        font-size: 1.1rem;
     }
 }
