@@ -4,10 +4,12 @@
         font-size: 90%;
         width: 95vw;
         margin: 0.1rem;
-}
+    }
+
+    h1, h2 {font-size: 1.1rem;}
 
     .calendar-container {
-        width: 95vw;
+        max-width: 95vw;
         height: auto;
         margin: 0.5rem 0;
         padding: 0.25rem;
