@@ -12,7 +12,6 @@ html, body {
     position: relative;
     margin: 0;
     padding: 0;
-    font-size: 110%;
 }
 
 body {
@@ -27,8 +26,8 @@ body {
     background-size: cover;
     min-height: 100vh;
     margin: 0;
-    overflow-x: hidden;    /* Магическая строчка: скрывает всё, что вылезло вбок */
-    width: 100vw;          /* Берем ровно ширину видимой части экрана */
+    overflow-x: hidden;   
+    width: 100vw;          
     position: relative;
 }
 
@@ -135,10 +134,10 @@ button:hover {
 
 #holiday-banner {
     margin: 1rem 0;
-    width: 100%;           /* Строка не должна быть шире экрана */
-    max-width: 38rem;      /* Ограничиваем её так же, как календарь */
-    overflow: hidden;      /* ВСЁ, что вылетает за границы, обрезается */
-    margin-left: auto;     /* Центрируем сам контейнер */
+    width: 100%;           
+    max-width: 38rem;     
+    overflow: hidden;      
+    margin-left: auto;     
     margin-right: auto;
     border-radius: 1rem;
 }
@@ -146,7 +145,6 @@ button:hover {
 .marquee {
     display: inline-block;
     white-space: nowrap;
-    /* Убираем padding-left: 100%, если он ломает ширину */
     animation: marquee 15s linear infinite;
 }
 
